@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
     }
 
     while (1) {
-        printf("#cisfun$ ");
+        printf("$ ");
 
         if (fgets(input, sizeof(input), stdin) == NULL) {
             if (feof(stdin)) {
