@@ -22,40 +22,36 @@ void _err(char *args[])
 
 void exec(char **args, char *input)
 {
+    int status;
+    pid_t childPid = 0;
 
-	int status, statusExit;
-	pid_t childPid = 0;
+    if (access(args[0], X_OK) != 0)
+        _err(args);
 
-	if (access(args[0], X_OK) != 0)
-		_err(args);
+    childPid = fork();
 
-	childPid = fork();
-
-	if (childPid == -1)
-	{
-		perror("fork\n");
-		free(args[0]);
-		free(input);
-		exit(EXIT_FAILURE);
-	}
-	else if (childPid == 0)
-	{
-		execve(args[0], args, environ);
-		free(args[0]);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		wait(&status);
-		if (WIFEXITED(status))
-		{
-			statusExit = WEXITSTATUS(status);
-			if (statusExit != 0)
-			{
-				free(args[0]);
-				free(input);
-				exit(EXIT_FAILURE);
-			}
-		}
-	}
+    if (childPid == -1)
+    {
+        perror("fork\n");
+        free(args[0]);
+        free(input);
+        exit(EXIT_FAILURE);
+    }
+    else if (childPid == 0)
+    {
+        execve(args[0], args, environ);
+        perror(args[0]);
+        free(args[0]);
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        wait(&status);
+        if (WIFEXITED(status))
+        {
+            free(args[0]);
+            free(input);
+            exit(WEXITSTATUS(status));
+        }
+    }
 }
