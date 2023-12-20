@@ -28,6 +28,7 @@ char *handle_path(char *input)
 				if (result == NULL)
 				{
 					perror("Malloc is NULL");
+                    free(cache);
 					return (NULL);
 				}
 				sprintf(result, "%s/%s", token, input);
@@ -46,5 +47,6 @@ char *handle_path(char *input)
 	}
 
 	free(input);
+    free(cache);
 	return (NULL);
 }

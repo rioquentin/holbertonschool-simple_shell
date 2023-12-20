@@ -21,18 +21,16 @@ int main(void)
 			printf("$ ");
 			fflush(stdout);
 		}
-
 		inputRead = getline(&input, &inputSize, stdin);
 		if (inputRead == EOF)
 		{
 			free(input);
 			exit(0);
 		}
-
 		if (inputRead > 0 && input[inputRead - 1] == '\n')
 			input[inputRead - 1] = '\0';
-
-		tokenize(input, args);
+        if (input[0] != ' ')
+		    tokenize(input, args);
 	}
 	free(input);
 	return (0);

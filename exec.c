@@ -34,6 +34,8 @@ void exec(char **args, char *input)
 	if (childPid == -1)
 	{
 		perror("fork\n");
+		free(args[0]);
+		free(input);
 		exit(EXIT_FAILURE);
 	}
 	else if (childPid == 0)
